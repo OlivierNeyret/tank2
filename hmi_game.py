@@ -35,7 +35,7 @@ class HMI_game:
         self.intersection_ve = pygame.image.load("images/maps/intersection_ve.png").convert()
         self.intersection_hn = pygame.image.load("images/maps/intersection_hn.png").convert()
         self.crossroads_v = pygame.image.load("images/maps/crossroads_v.png").convert()
-        self.crossroads_h = pygame.image.load("images/maps/carrefour_h.png").convert()
+        self.crossroads_h = pygame.image.load("images/maps/crossroads_h.png").convert()
         self.barbed_wire_v = pygame.image.load("images/maps/barbed_wire_v.png").convert()
         self.barbed_wire_h = pygame.image.load("images/maps/barbed_wire_h.png").convert()
         self.base_blue = pygame.image.load("images/maps/base_blue.png").convert()
@@ -87,7 +87,7 @@ class HMI_game:
         self.red_victory_sound = pygame.mixer.Sound("audio/red_victory.wav")
         self.blue_victory_sound = pygame.mixer.Sound("audio/blue_victory.wav")
 
-    def display(self):
+    def display(self, game, play_sound):
         pass
 
     def event(self, event):

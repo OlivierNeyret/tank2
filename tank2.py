@@ -17,6 +17,7 @@
 
 import pygame
 from hmi_greeting import HMI_greeting, HMI_greeting_choice
+from hmi_game import HMI_game
 
 WIDTH = 800
 HEIGHT = 600
@@ -30,6 +31,7 @@ if __name__ == "__main__":
     window = pygame.display.set_mode([WIDTH, HEIGHT])
     pygame.display.set_caption("Tank2")
     hmi_greeting = HMI_greeting(window)
+    hmi_game = HMI_game(window)
 
     hmi_greeting.display(play_sound)
 
