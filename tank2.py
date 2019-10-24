@@ -28,6 +28,7 @@ if __name__ == "__main__":
 
     pygame.init()
     window = pygame.display.set_mode([WIDTH, HEIGHT])
+    pygame.display.set_caption("Tank2")
     hmi_greeting = HMI_greeting(window)
 
     hmi_greeting.display(play_sound)
@@ -51,5 +52,7 @@ if __name__ == "__main__":
                     continue_loop = False
                 elif choice == HMI_greeting_choice.NOTHING:
                     hmi_greeting.display(play_sound)
+            else:
+                hmi_game.event(event)
                 
     pygame.quit()

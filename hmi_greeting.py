@@ -38,12 +38,12 @@ class HMI_greeting_screen(enum.Enum):
 class HMI_greeting:
     def __init__(self, window):
         self.window = window
-        self.greeting_background = pygame.image.load("images/greeting_background.png").convert()
-        self.one_player_background = pygame.image.load("images/one_player_background.png").convert()
-        self.two_player_background = pygame.image.load("images/two_player_background.png").convert()
-        self.difficulty_background = pygame.image.load("images/difficulty_background.png").convert()
-        self.sound_on = pygame.image.load("images/sound_on.png").convert_alpha()
-        self.sound_off = pygame.image.load("images/sound_off.png").convert_alpha()
+        self.greeting_background = pygame.image.load("images/greeting/greeting_background.png").convert()
+        self.one_player_background = pygame.image.load("images/greeting/one_player_background.png").convert()
+        self.two_player_background = pygame.image.load("images/greeting/two_player_background.png").convert()
+        self.difficulty_background = pygame.image.load("images/greeting/difficulty_background.png").convert()
+        self.sound_on = pygame.image.load("images/greeting/sound_on.png").convert_alpha()
+        self.sound_off = pygame.image.load("images/greeting/sound_off.png").convert_alpha()
         self.current_screen = HMI_greeting_screen.GREETING
         self.choosed_difficulty = 0
 
