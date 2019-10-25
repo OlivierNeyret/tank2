@@ -41,9 +41,9 @@ class Games_Manager:
 
     def launch_game(self):
         if self.map_number == 0:
-            return Game(self.nb_human_player, "maps/map"+str(self.current_map)+".map")
+            return Game(self.nb_human_player, self.current_map)
         else:
-            return Game(self.nb_human_player, "maps/map"+str(self.map_number)+".map")
+            return Game(self.nb_human_player, self.map_number)
 
     def game_over(self, winner):
         if self.map_number == 0:

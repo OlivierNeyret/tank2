@@ -21,11 +21,6 @@ WIDTH_SIDE_MENU = 150
 WIDTH_SPRITE = 50
 HEIGHT_SPRITE = 50
 
-X_AMMUNATIONS_BLUE = 50
-Y_AMMUNATIONS_BLUE = 235
-X_AMMUNATIONS_RED = 850
-Y_AMMUNATIONS_RED = 235
-
 X_LIFE_BLUE = 40
 Y_LIFE_BLUE = 550
 X_LIFE_RED = 840
@@ -54,18 +49,6 @@ class HMI_game:
         self.barbed_wire_h = pygame.image.load("images/maps/barbed_wire_h.png").convert()
         self.base_blue = pygame.image.load("images/maps/base_blue.png").convert()
         self.base_red = pygame.image.load("images/maps/base_red.png").convert()
-        # Digits
-        self.zero = pygame.image.load("images/characters/zero.png").convert_alpha()
-        self.one = pygame.image.load("images/characters/one.png").convert_alpha()
-        self.two = pygame.image.load("images/characters/two.png").convert_alpha()
-        self.three = pygame.image.load("images/characters/three.png").convert_alpha()
-        self.four = pygame.image.load("images/characters/four.png").convert_alpha()
-        self.five = pygame.image.load("images/characters/five.png").convert_alpha()
-        self.six = pygame.image.load("images/characters/six.png").convert_alpha()
-        self.seven = pygame.image.load("images/characters/seven.png").convert_alpha()
-        self.eight = pygame.image.load("images/characters/eight.png").convert_alpha()
-        self.nine = pygame.image.load("images/characters/nine.png").convert_alpha()
-        self.level = pygame.image.load("images/characters/level.png").convert_alpha()
         # Life bar
         self.life_bar_100 = pygame.image.load("images/info_bar/life_100.jpg").convert_alpha()
         self.life_bar_80 = pygame.image.load("images/info_bar/life_80.jpg").convert_alpha()
@@ -103,29 +86,28 @@ class HMI_game:
         self.blue_victory_sound = pygame.mixer.Sound("audio/blue_victory.wav")
         """
 
-    def display_digits(self, number, x, y):
-        if number >= 0:
-            list_digit = [int(c) for c in str(number)]
-            list_img = [self.zero, self.one, self.two, self.three, self.four, self.five, self.six, self.seven, self.eight, self.nine]
-            i = 0
-            for digit in list_digit:
-                self.window.blit(list_img[list_digit[i]], (x, y))
-                i += 1
-                x += 25
+    def display_level(self, level):
+        font = pygame.font.Font(None, 48)
+        txt_surface = font.render("LEVEL " + str(level), True, (0, 0, 0))
+        x = (WIDTH_SIDE_MENU - txt_surface.get_width()) / 2
+        self.window.blit(txt_surface, (x, 15))
 
     def display_ammunations(self, blue, nb_ammo):
-        x = 0
-        y = 0
-        if blue:
-            x = X_AMMUNATIONS_BLUE
-            y = Y_AMMUNATIONS_BLUE
-        else:
-            x = X_AMMUNATIONS_RED
-            y = Y_AMMUNATIONS_RED
+        font = pygame.font.Font(None, 64)
+        text_surface = font.render(str(nb_ammo), True, (0, 0, 0))
 
-        self.display_digits(nb_ammo, x, y)
+        y_txt = (600 - text_surface.get_height()) / 2
+        y_img = (600 + text_surface.get_height()) / 2
+        if blue:
+            x_txt = (WIDTH_SIDE_MENU - text_surface.get_width()) / 2
+            x_img = (WIDTH_SIDE_MENU - (self.bullet.get_width() * nb_ammo)) / 2
+        else:
+            x_txt = (WIDTH_SIDE_MENU - text_surface.get_width()) / 2 + 800
+            x_img = (WIDTH_SIDE_MENU - (self.bullet.get_width() * nb_ammo)) / 2 + 800
+
+        self.window.blit(text_surface, (x_txt , y_txt))
         for i in range(nb_ammo):
-            self.window.blit(self.bullet, ((x - 25) + (8 * i), y + 30))
+            self.window.blit(self.bullet, (x_img + (self.bullet.get_width() * i), y_img))
 
     def display_life(self, blue, life):
         x = 0
@@ -172,7 +154,7 @@ class HMI_game:
         # Display menu(s)
         self.window.blit(self.menu_background, (0, 0))
         ## Level
-        # TODO!
+        self.display_level(game.level)
         ## Ammunations
         self.display_ammunations(True, game.players[0].ammunations)
         ## Life

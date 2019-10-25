@@ -26,13 +26,14 @@ class Difficulty(enum.Enum):
     HARD = 3
 
 class Game:
-    def __init__(self, nb_player, map_filename):
+    def __init__(self, nb_player, level):
         self.nb_player = nb_player
         self.players = []
+        self.level = level
         for i in range(nb_player):
             self.players.append(Player())
         self.map = []
-        map_file = open(map_filename, "r")
+        map_file = open("maps/map"+str(level)+".map", "r")
         for line in map_file:
             if line[-1] == '\n':
                 self.map.append(line[:-1]) # Remove last char (i.e. '\n')
