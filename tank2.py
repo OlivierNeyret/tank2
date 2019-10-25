@@ -18,6 +18,8 @@
 import pygame
 from hmi_greeting import HMI_greeting, HMI_greeting_choice
 from hmi_game import HMI_game
+from games_manager import Games_Manager, GM_choice
+from game import Game, Difficulty
 
 WIDTH = 800
 HEIGHT = 600
@@ -32,6 +34,7 @@ if __name__ == "__main__":
     pygame.display.set_caption("Tank2")
     hmi_greeting = HMI_greeting(window)
     hmi_game = HMI_game(window)
+    games_manager = None
 
     hmi_greeting.display(play_sound)
 
@@ -45,13 +48,17 @@ if __name__ == "__main__":
                     play_sound = not play_sound
                     hmi_greeting.display(play_sound)
                 elif choice == HMI_greeting_choice.LAUNCH_ONE_PLAYER_EASY:
-                    continue_loop = False
+                    games_manager = Games_Manager(1, map_number=0, difficulty=Difficulty.EASY)
+                    is_playing = True
                 elif choice == HMI_greeting_choice.LAUNCH_ONE_PLAYER_MEDIUM:
-                    continue_loop = False
+                    games_manager = Games_Manager(1, map_number=0, difficulty=Difficulty.MEDIUM)
+                    is_playing = True
                 elif choice == HMI_greeting_choice.LAUNCH_ONE_PLAYER_HARD:
-                    continue_loop = False
+                    games_manager = Games_Manager(1, map_number=0, difficulty=Difficulty.HARD)
+                    is_playing = True
                 elif choice == HMI_greeting_choice.LAUNCH_TWO_PLAYER:
-                    continue_loop = False
+                    games_manager = Games_Manager(2, map_number=0)
+                    is_playing = True
                 elif choice == HMI_greeting_choice.NOTHING:
                     hmi_greeting.display(play_sound)
             else:

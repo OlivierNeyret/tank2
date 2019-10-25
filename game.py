@@ -17,6 +17,13 @@
 
 from player import Player
 import sys
+import enum
+
+class Difficulty(enum.Enum):
+    NONE = 0
+    EASY = 1
+    MEDIUM = 2
+    HARD = 3
 
 class Game:
     def __init__(self, nb_player, map_filename):
@@ -29,3 +36,5 @@ class Game:
         for line in map_file:
             self.map.append(line[:-1]) # Remove last char (i.e. '\n')
                 
+    def event(self, event):
+        pass
