@@ -234,9 +234,13 @@ class HMI_game:
                     tank_img = self.tank_red_40
                 elif player.life == 20:
                     tank_img = self.tank_red_20
+            
+            if player.orientation == 'N':
+                tank_img = pygame.transform.rotate(tank_img, 90)
+            elif player.orientation == 'S':
+                tank_img = pygame.transform.rotate(tank_img, -90)
+            elif player.orientation == 'W':
+                tank_img = pygame.transform.rotate(tank_img, 180)
             self.window.blit(tank_img, (x, y))
 
         pygame.display.flip()
-
-    def event(self, event):
-        pass

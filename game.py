@@ -20,6 +20,10 @@ from human_player import Human_Player
 from ai_player import AI_Player
 import sys
 import enum
+import pygame
+
+WIDTH_MAP = 13
+HEIGHT_MAP = 12
 
 class Difficulty(enum.Enum):
     NONE = 0
@@ -30,6 +34,7 @@ class Difficulty(enum.Enum):
 class Game:
     def __init__(self, nb_human_player, nb_ai_player, level):
         self.nb_human_player = nb_human_player
+        self.nb_ai_player = nb_ai_player
         self.players = []
         self.level = level
         for i in range(nb_human_player):
@@ -49,6 +54,73 @@ class Game:
                 self.map.append(line[:-1]) # Remove last char (i.e. '\n')
             else:
                 self.map.append(line)
+
+    def move(self, player, direction):
+        if direction == 'down':
+            player.orientation = 'S'
+            # Check map collision
+            if player.pos[1] < HEIGHT_MAP - 1 and self.map[player.pos[1]+1][player.pos[0]] != 'm' and self.map[player.pos[1]+1][player.pos[0]] != '%' and self.map[player.pos[1]+1][player.pos[0]] != '$':
+                # Check player collision
+                for other_player in self.players:
+                    if player != other_player:
+                        if other_player.pos[0] == player.pos[0] and other_player.pos[1] == player.pos[1] + 1:
+                            return
+                player.pos[1] += 1
+        elif direction == 'up':
+            player.orientation = 'N'
+            # Check map collision
+            if player.pos[1] > 0 and self.map[player.pos[1]-1][player.pos[0]] != 'm' and self.map[player.pos[1]-1][player.pos[0]] != '%' and self.map[player.pos[1]-1][player.pos[0]] != '$':
+                # Check player collision
+                for other_player in self.players:
+                    if player != other_player:
+                        if other_player.pos[0] == player.pos[0] and other_player.pos[1] == player.pos[1] - 1:
+                            return
+                player.pos[1] -= 1
+        elif direction == 'right':
+            player.orientation = 'E'
+            # Check map collision
+            if player.pos[0] < WIDTH_MAP - 1 and self.map[player.pos[1]][player.pos[0]+1] != 'm' and self.map[player.pos[1]][player.pos[0]+1] != '%' and self.map[player.pos[1]][player.pos[0]+1] != '$':
+                # Check player collision
+                for other_player in self.players:
+                    if player != other_player:
+                        if other_player.pos[0] == player.pos[0] + 1 and other_player.pos[1] == player.pos[1]:
+                            return
+                player.pos[0] += 1
+        elif direction == 'left':
+            player.orientation = 'W'
+            # Check map collision
+            if player.pos[0] > 0 and self.map[player.pos[1]][player.pos[0]-1] != 'm' and self.map[player.pos[1]][player.pos[0]-1] != '%' and self.map[player.pos[1]][player.pos[0]-1] != '$':
+                # Check player collision
+                for other_player in self.players:
+                    if player != other_player:
+                        if other_player.pos[0] == player.pos[0] - 1 and other_player.pos[1] == player.pos[1]:
+                            return
+                player.pos[0] -= 1
+
+    def shoot(self, player):
+        pass
                 
     def event(self, event):
-        pass
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_DOWN:
+                self.move(self.players[0], 'down')
+            elif event.key == pygame.K_UP:
+                self.move(self.players[0], 'up')
+            elif event.key == pygame.K_RIGHT:
+                self.move(self.players[0], 'right')
+            elif event.key == pygame.K_LEFT:
+                self.move(self.players[0], 'left')
+            elif event.key == pygame.K_SPACE:
+                self.shoot(self.players[0])
+
+            if self.nb_human_player == 2:
+                if event.key == pygame.K_s:
+                    self.move(self.players[1], 'down')
+                elif event.key == pygame.K_z:
+                    self.move(self.players[1], 'up')
+                elif event.key == pygame.K_d:
+                    self.move(self.players[1], 'right')
+                elif event.key == pygame.K_q:
+                    self.move(self.players[1], 'left')
+                elif event.key == pygame.K_LALT:
+                    self.shoot(self.players[1])

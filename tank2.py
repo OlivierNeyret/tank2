@@ -81,6 +81,7 @@ if __name__ == "__main__":
             elif choice == HMI_greeting_choice.NOTHING:
                 hmi_greeting.display(play_sound)
         else:
-            hmi_game.event(event)
+            current_game.event(event)
+            hmi_game.display(current_game, play_sound, nb_human_player == 2)
                 
     pygame.quit()
