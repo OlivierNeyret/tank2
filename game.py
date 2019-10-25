@@ -34,7 +34,10 @@ class Game:
         self.map = []
         map_file = open(map_filename, "r")
         for line in map_file:
-            self.map.append(line[:-1]) # Remove last char (i.e. '\n')
+            if line[-1] == '\n':
+                self.map.append(line[:-1]) # Remove last char (i.e. '\n')
+            else:
+                self.map.append(line)
                 
     def event(self, event):
         pass

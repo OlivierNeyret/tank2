@@ -17,6 +17,10 @@
 
 import pygame
 
+WIDTH_SIDE_MENU = 150
+WIDTH_SPRITE = 50
+HEIGHT_SPRITE = 50
+
 class HMI_game:
     def __init__(self, window):
         self.window = window
@@ -88,7 +92,51 @@ class HMI_game:
         self.blue_victory_sound = pygame.mixer.Sound("audio/blue_victory.wav")
 
     def display(self, game, play_sound):
-        pass
+        idx_line = 0
+        for line in game.map:
+            idx_col = 0
+            for sprite in line:
+                x = (idx_col * WIDTH_SPRITE) + WIDTH_SIDE_MENU
+                y = idx_line * HEIGHT_SPRITE
+                if sprite == "m":
+                    self.window.blit(self.wall, (x,y))
+                elif sprite == "h":
+                    self.window.blit(self.road_h, (x,y))
+                elif sprite == "v":
+                    self.window.blit(self.road_v, (x,y))
+                elif sprite == "0":
+                    self.window.blit(self.road_turn_sw, (x,y))
+                elif sprite == "1":
+                    self.window.blit(self.road_turn_nw, (x,y))
+                elif sprite == "2":
+                    self.window.blit(self.road_turn_ne, (x,y))
+                elif sprite == "3":
+                    self.window.blit(self.road_turn_se, (x,y))
+                elif sprite == "w":
+                    self.window.blit(self.grass, (x,y))
+                elif sprite == "b":
+                    self.window.blit(self.base_blue, (x,y))
+                elif sprite == "c":
+                    self.window.blit(self.base_red, (x,y))
+                elif sprite == "%":
+                    self.window.blit(self.barbed_wire_v, (x,y))
+                elif sprite == "$":
+                    self.window.blit(self.barbed_wire_h, (x,y))
+                elif sprite == "4":
+                    self.window.blit(self.intersection_vw, (x,y))
+                elif sprite == "5":
+                    self.window.blit(self.intersection_hs, (x,y))
+                elif sprite == "6":
+                    self.window.blit(self.intersection_ve, (x,y))
+                elif sprite == "7":
+                    self.window.blit(self.intersection_hn, (x,y))
+                elif sprite == "8":
+                    self.window.blit(self.crossroads_v, (x,y))
+                elif sprite == "9":
+                    self.window.blit(self.crossroads_h, (x,y))
+                idx_col += 1
+            idx_line += 1
+        pygame.display.flip()
 
     def event(self, event):
         pass

@@ -21,7 +21,8 @@ from hmi_game import HMI_game
 from games_manager import Games_Manager, GM_choice
 from game import Game, Difficulty
 
-WIDTH = 800
+WIDTH_ONE_PLAYER = 800
+WIDTH_TWO_PLAYER = 950
 HEIGHT = 600
 
 if __name__ == "__main__":
@@ -30,11 +31,12 @@ if __name__ == "__main__":
     is_playing = False
 
     pygame.init()
-    window = pygame.display.set_mode([WIDTH, HEIGHT])
+    window = pygame.display.set_mode([WIDTH_ONE_PLAYER, HEIGHT])
     pygame.display.set_caption("Tank2")
     hmi_greeting = HMI_greeting(window)
     hmi_game = HMI_game(window)
     games_manager = None
+    current_game = None
 
     hmi_greeting.display(play_sound)
 
@@ -49,15 +51,24 @@ if __name__ == "__main__":
                     hmi_greeting.display(play_sound)
                 elif choice == HMI_greeting_choice.LAUNCH_ONE_PLAYER_EASY:
                     games_manager = Games_Manager(1, map_number=0, difficulty=Difficulty.EASY)
+                    current_game = games_manager.launch_game()
+                    hmi_game.display(current_game, play_sound)
                     is_playing = True
                 elif choice == HMI_greeting_choice.LAUNCH_ONE_PLAYER_MEDIUM:
                     games_manager = Games_Manager(1, map_number=0, difficulty=Difficulty.MEDIUM)
+                    current_game = games_manager.launch_game()
+                    hmi_game.display(current_game, play_sound)
                     is_playing = True
                 elif choice == HMI_greeting_choice.LAUNCH_ONE_PLAYER_HARD:
                     games_manager = Games_Manager(1, map_number=0, difficulty=Difficulty.HARD)
+                    current_game = games_manager.launch_game()
+                    hmi_game.display(current_game, play_sound)
                     is_playing = True
                 elif choice == HMI_greeting_choice.LAUNCH_TWO_PLAYER:
                     games_manager = Games_Manager(2, map_number=0)
+                    current_game = games_manager.launch_game()
+                    window = pygame.display.set_mode([WIDTH_TWO_PLAYER, HEIGHT])
+                    hmi_game.display(current_game, play_sound)
                     is_playing = True
                 elif choice == HMI_greeting_choice.NOTHING:
                     hmi_greeting.display(play_sound)

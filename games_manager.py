@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Tank2.  If not, see <https://www.gnu.org/licenses/>.
 
-from game import Game
+from game import Game, Difficulty
 import enum
 
 NB_MAP = 3
@@ -41,9 +41,9 @@ class Games_Manager:
 
     def launch_game(self):
         if self.map_number == 0:
-            return Game(self.nb_human_player, self.current_map)
+            return Game(self.nb_human_player, "maps/map"+str(self.current_map)+".map")
         else:
-            return Game(self.nb_human_player, self.map_number)
+            return Game(self.nb_human_player, "maps/map"+str(self.map_number)+".map")
 
     def game_over(self, winner):
         if self.map_number == 0:
