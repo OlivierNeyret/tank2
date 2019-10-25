@@ -21,6 +21,16 @@ WIDTH_SIDE_MENU = 150
 WIDTH_SPRITE = 50
 HEIGHT_SPRITE = 50
 
+X_AMMUNATIONS_BLUE = 50
+Y_AMMUNATIONS_BLUE = 235
+X_AMMUNATIONS_RED = 850
+Y_AMMUNATIONS_RED = 235
+
+X_LIFE_BLUE = 40
+Y_LIFE_BLUE = 550
+X_LIFE_RED = 840
+Y_LIFE_RED = 550
+
 class HMI_game:
     def __init__(self, window):
         self.window = window
@@ -91,7 +101,87 @@ class HMI_game:
         self.red_victory_sound = pygame.mixer.Sound("audio/red_victory.wav")
         self.blue_victory_sound = pygame.mixer.Sound("audio/blue_victory.wav")
 
-    def display(self, game, play_sound):
+    def display_digits(self, number, x, y):
+        if number >= 0:
+            list_digit = [int(c) for c in str(number)]
+            list_img = [self.zero, self.one, self.two, self.three, self.four, self.five, self.six, self.seven, self.eight, self.nine]
+            i = 0
+            for digit in list_digit:
+                self.window.blit(list_img[list_digit[i]], (x, y))
+                i += 1
+                x += 25
+
+    def display_ammunations(self, blue, nb_ammo):
+        x = 0
+        y = 0
+        if blue:
+            x = X_AMMUNATIONS_BLUE
+            y = Y_AMMUNATIONS_BLUE
+        else:
+            x = X_AMMUNATIONS_RED
+            y = Y_AMMUNATIONS_RED
+
+        self.display_digits(nb_ammo, x, y)
+        for i in range(nb_ammo):
+            self.window.blit(self.bullet, ((x - 25) + (8 * i), y + 30))
+
+    def display_life(self, blue, life):
+        x = 0
+        y = 0
+        if blue:
+            x = X_LIFE_BLUE
+            y = Y_LIFE_BLUE
+        else:
+            x = X_LIFE_RED
+            y = Y_LIFE_RED
+
+        if life == 100:
+            self.window.blit(self.life_bar_100, (x, y))
+            if blue:
+                self.window.blit(self.tank_blue_100, (x + 16, y - 50))
+            else:
+                self.window.blit(self.tank_red_100, (x + 16, y - 50))
+        elif life == 80:
+            self.window.blit(self.life_bar_80, (x, y))
+            if blue:
+                self.window.blit(self.tank_blue_80, (x + 16, y - 50))
+            else:
+                self.window.blit(self.tank_red_80, (x + 16, y - 50))
+        elif life == 60:
+            self.window.blit(self.life_bar_60, (x, y))
+            if blue:
+                self.window.blit(self.tank_blue_60, (x + 16, y - 50))
+            else:
+                self.window.blit(self.tank_red_60, (x + 16, y - 50))
+        elif life == 40:
+            self.window.blit(self.life_bar_40, (x, y))
+            if blue:
+                self.window.blit(self.tank_blue_40, (x + 16, y - 50))
+            else:
+                self.window.blit(self.tank_red_40, (x + 16, y - 50))
+        elif life == 20:
+            self.window.blit(self.life_bar_20, (x, y))
+            if blue:
+                self.window.blit(self.tank_blue_20, (x + 16, y - 50))
+            else:
+                self.window.blit(self.tank_red_20, (x + 16, y - 50))
+
+    def display(self, game, play_sound, two_menu):
+        # Display menu(s)
+        self.window.blit(self.menu_background, (0, 0))
+        ## Level
+        # TODO!
+        ## Ammunations
+        self.display_ammunations(True, game.players[0].ammunations)
+        ## Life
+        self.display_life(True, game.players[0].life)
+
+        if two_menu:
+            self.window.blit(self.menu_background, (800, 0))
+            self.display_ammunations(False, game.players[1].ammunations)
+            self.display_life(False, game.players[1].life)
+
+        # Display map
         idx_line = 0
         for line in game.map:
             idx_col = 0
