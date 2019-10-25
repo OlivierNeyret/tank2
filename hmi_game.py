@@ -16,6 +16,7 @@
 # along with Tank2.  If not, see <https://www.gnu.org/licenses/>.
 
 import pygame
+from player import Player, Team
 
 WIDTH_SIDE_MENU = 150
 WIDTH_SPRITE = 50
@@ -153,11 +154,8 @@ class HMI_game:
     def display(self, game, play_sound, two_menu):
         # Display menu(s)
         self.window.blit(self.menu_background, (0, 0))
-        ## Level
         self.display_level(game.level)
-        ## Ammunations
         self.display_ammunations(True, game.players[0].ammunations)
-        ## Life
         self.display_life(True, game.players[0].life)
 
         if two_menu:
@@ -210,6 +208,34 @@ class HMI_game:
                     self.window.blit(self.crossroads_h, (x,y))
                 idx_col += 1
             idx_line += 1
+
+        for player in game.players:
+            x = (player.pos[0] * WIDTH_SPRITE) + WIDTH_SIDE_MENU
+            y = player.pos[1] * HEIGHT_SPRITE
+            if player.team == Team.BLUE:
+                if player.life == 100:
+                    tank_img = self.tank_blue_100
+                elif player.life == 80:
+                    tank_img = self.tank_blue_80
+                elif player.life == 60:
+                    tank_img = self.tank_blue_60
+                elif player.life == 40:
+                    tank_img = self.tank_blue_40
+                elif player.life == 20:
+                    tank_img = self.tank_blue_20
+            elif player.team == Team.RED:
+                if player.life == 100:
+                    tank_img = self.tank_red_100
+                elif player.life == 80:
+                    tank_img = self.tank_red_80
+                elif player.life == 60:
+                    tank_img = self.tank_red_60
+                elif player.life == 40:
+                    tank_img = self.tank_red_40
+                elif player.life == 20:
+                    tank_img = self.tank_red_20
+            self.window.blit(tank_img, (x, y))
+
         pygame.display.flip()
 
     def event(self, event):

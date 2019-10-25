@@ -15,20 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Tank2.  If not, see <https://www.gnu.org/licenses/>.
 
-import enum
+from player import Player, Team
 
-class Team(enum.Enum):
-    BLUE = 1
-    RED = 2
-
-class Player:
+class Human_Player(Player):
     def __init__(self, team):
-        self.life = 100
-        self.ammunations = 8
-        self.team = team
-        if team == Team.BLUE:
-            self.pos = [0, 11]
-            self.orientation = 'E'
-        elif team == Team.RED:
-            self.pos = [12, 0]
-            self.orientation = 'W'
+        super().__init__(team)

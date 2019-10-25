@@ -19,6 +19,7 @@ from game import Game, Difficulty
 import enum
 
 NB_MAP = 3
+NB_PLAYER_MAX = 2
 
 class GM_choice(enum.Enum):
     VICTORY_BLUE = 1
@@ -41,9 +42,9 @@ class Games_Manager:
 
     def launch_game(self):
         if self.map_number == 0:
-            return Game(self.nb_human_player, self.current_map)
+            return Game(self.nb_human_player, NB_PLAYER_MAX - self.nb_human_player, self.current_map)
         else:
-            return Game(self.nb_human_player, self.map_number)
+            return Game(self.nb_human_player, NB_PLAYER_MAX - self.nb_human_player, self.map_number)
 
     def game_over(self, winner):
         if self.map_number == 0:

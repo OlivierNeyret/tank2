@@ -15,7 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Tank2.  If not, see <https://www.gnu.org/licenses/>.
 
-from player import Player
+from player import Player, Team
+from human_player import Human_Player
+from ai_player import AI_Player
 import sys
 import enum
 
@@ -26,12 +28,20 @@ class Difficulty(enum.Enum):
     HARD = 3
 
 class Game:
-    def __init__(self, nb_player, level):
-        self.nb_player = nb_player
+    def __init__(self, nb_human_player, nb_ai_player, level):
+        self.nb_human_player = nb_human_player
         self.players = []
         self.level = level
-        for i in range(nb_player):
-            self.players.append(Player())
+        for i in range(nb_human_player):
+            if i % 2 == 0:
+                self.players.append(Human_Player(Team.BLUE))
+            else:
+                self.players.append(Human_Player(Team.RED))
+        for i in range(nb_ai_player):
+            if i % 2 == 0:
+                self.players.append(AI_Player(Team.BLUE))
+            else:
+                self.players.append(AI_Player(Team.RED))
         self.map = []
         map_file = open("maps/map"+str(level)+".map", "r")
         for line in map_file:
