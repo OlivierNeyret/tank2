@@ -96,10 +96,12 @@ class HMI_game:
         self.final_red_victory = pygame.image.load("images/victory_screens/final_red_victory.png").convert_alpha()
 
         # Sounds
+        """
         self.explosion_sound = pygame.mixer.Sound("audio/explosion.wav")
         self.missile_sound = pygame.mixer.Sound("audio/rocket.ogg")
         self.red_victory_sound = pygame.mixer.Sound("audio/red_victory.wav")
         self.blue_victory_sound = pygame.mixer.Sound("audio/blue_victory.wav")
+        """
 
     def display_digits(self, number, x, y):
         if number >= 0:

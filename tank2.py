@@ -31,6 +31,9 @@ if __name__ == "__main__":
     is_playing = False
 
     pygame.init()
+
+    #pygame.mixer.quit()
+
     window = pygame.display.set_mode([WIDTH_ONE_PLAYER, HEIGHT])
     pygame.display.set_caption("Tank2")
     hmi_greeting = HMI_greeting(window)
@@ -42,7 +45,8 @@ if __name__ == "__main__":
     hmi_greeting.display(play_sound)
 
     while continue_loop:
-        for event in pygame.event.get():
+            event = pygame.event.wait()
+        #for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continue_loop = False
             if not is_playing:
