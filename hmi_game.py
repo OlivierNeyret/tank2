@@ -243,4 +243,28 @@ class HMI_game:
                 tank_img = pygame.transform.rotate(tank_img, 180)
             self.window.blit(tank_img, (x, y))
 
+        for rocket in game.rockets:
+            if rocket.explosing:
+                self.window.blit(self.explosion, ((rocket.position[0] * WIDTH_SPRITE) + WIDTH_SIDE_MENU, rocket.position[1] * HEIGHT_SPRITE))
+            else:
+                if rocket.team == Team.BLUE:
+                    if rocket.orientation == 'N':
+                        rocket_img = pygame.transform.rotate(self.rocket_blue, -90)
+                    elif rocket.orientation == 'E':
+                        rocket_img = pygame.transform.rotate(self.rocket_blue, 180)
+                    elif rocket.orientation == 'S':
+                        rocket_img = pygame.transform.rotate(self.rocket_blue, 90)
+                    elif rocket.orientation == 'W':
+                        rocket_img = self.rocket_blue
+                elif rocket.team == Team.RED:
+                    if rocket.orientation == 'N':
+                        rocket_img = pygame.transform.rotate(self.rocket_red, -90)
+                    elif rocket.orientation == 'E':
+                        rocket_img = pygame.transform.rotate(self.rocket_red, 180)
+                    elif rocket.orientation == 'S':
+                        rocket_img = pygame.transform.rotate(self.rocket_red, 90)
+                    elif rocket.orientation == 'W':
+                        rocket_img = self.rocket_red
+                self.window.blit(rocket_img, ((rocket.position[0] * WIDTH_SPRITE) + WIDTH_SIDE_MENU, rocket.position[1] * HEIGHT_SPRITE))
+
         pygame.display.flip()

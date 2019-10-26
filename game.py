@@ -18,12 +18,16 @@
 from player import Player, Team
 from human_player import Human_Player
 from ai_player import AI_Player
+from rocket import Rocket
 import sys
 import enum
 import pygame
+import threading
 
 WIDTH_MAP = 13
 HEIGHT_MAP = 12
+
+FREQ_ROCKET = 0.02
 
 class Difficulty(enum.Enum):
     NONE = 0
@@ -36,6 +40,7 @@ class Game:
         self.nb_human_player = nb_human_player
         self.nb_ai_player = nb_ai_player
         self.players = []
+        self.rockets = []
         self.level = level
         for i in range(nb_human_player):
             if i % 2 == 0:
@@ -98,7 +103,54 @@ class Game:
                 player.pos[0] -= 1
 
     def shoot(self, player):
-        pass
+        if player.ammunations > 0:
+            rocket = Rocket(player.team, player.pos, player.orientation)
+            player.ammunations -= 1
+            self.rockets.append(rocket)
+            self.callback_rocket(rocket, True)
+            
+    def callback_rocket(self, rocket, first_call):
+        # Check for explosion
+        t = None
+        if not first_call:
+            for player in self.players:
+                if player.pos[0] == rocket.position[0] and player.pos[1] == rocket.position[1]:
+                    rocket.explosion = True
+                    player.life -= 20
+                    t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
+
+        if rocket.orientation == 'N':
+            if rocket.position[1] == 0 or rocket.position[1] - 1 == 'm':
+                rocket.explosing = True
+                t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
+        if rocket.orientation == 'E':
+            if rocket.position[0] == WIDTH_MAP - 1 or rocket.position[0] + 1 == 'm':
+                rocket.explosing = True
+                t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
+        if rocket.orientation == 'S':
+            if rocket.position[1] == HEIGHT_MAP - 1 or rocket.position[1] + 1 == 'm':
+                rocket.explosing = True
+                t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
+        if rocket.orientation == 'W':
+            if rocket.position[0] == 0 or rocket.position[0] - 1 == 'm':
+                rocket.explosing = True
+                t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
+
+        if t == None:
+            # Make rocket progress
+            if rocket.orientation == 'N':
+                rocket.position[1] -= 1
+            elif rocket.orientation == 'E':
+                rocket.position[0] += 1
+            elif rocket.orientation == 'S':
+                rocket.position[1] += 1
+            elif rocket.orientation == 'W':
+                rocket.position[0] -= 1
+            t = threading.Timer(FREQ_ROCKET, self.callback_rocket, args=[rocket, False])
+        t.start()
+
+    def callback_rocket_has_exploded(self, rocket):
+        self.rockets.remove(rocket)
                 
     def event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -124,3 +176,5 @@ class Game:
                     self.move(self.players[1], 'left')
                 elif event.key == pygame.K_LALT:
                     self.shoot(self.players[1])
+
+        # TODO: check for winner

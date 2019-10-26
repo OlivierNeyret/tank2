@@ -58,18 +58,21 @@ if __name__ == "__main__":
                 current_game = games_manager.launch_game()
                 nb_human_player = 1
                 hmi_game.display(current_game, play_sound, nb_human_player == 2)
+                pygame.time.set_timer(pygame.USEREVENT, 20)
                 is_playing = True
             elif choice == HMI_greeting_choice.LAUNCH_ONE_PLAYER_MEDIUM:
                 games_manager = Games_Manager(1, map_number=0, difficulty=Difficulty.MEDIUM)
                 current_game = games_manager.launch_game()
                 nb_human_player = 1
                 hmi_game.display(current_game, play_sound, nb_human_player == 2)
+                pygame.time.set_timer(pygame.USEREVENT, 20)
                 is_playing = True
             elif choice == HMI_greeting_choice.LAUNCH_ONE_PLAYER_HARD:
                 games_manager = Games_Manager(1, map_number=0, difficulty=Difficulty.HARD)
                 current_game = games_manager.launch_game()
                 nb_human_player = 1
                 hmi_game.display(current_game, play_sound, nb_human_player == 2)
+                pygame.time.set_timer(pygame.USEREVENT, 20)
                 is_playing = True
             elif choice == HMI_greeting_choice.LAUNCH_TWO_PLAYER:
                 games_manager = Games_Manager(2, map_number=0)
@@ -77,11 +80,14 @@ if __name__ == "__main__":
                 window = pygame.display.set_mode([WIDTH_TWO_PLAYER, HEIGHT])
                 nb_human_player = 2
                 hmi_game.display(current_game, play_sound, nb_human_player == 2)
+                pygame.time.set_timer(pygame.USEREVENT, 20)
                 is_playing = True
             elif choice == HMI_greeting_choice.NOTHING:
                 hmi_greeting.display(play_sound)
         else:
-            current_game.event(event)
-            hmi_game.display(current_game, play_sound, nb_human_player == 2)
+            if event.type == pygame.USEREVENT:
+                hmi_game.display(current_game, play_sound, nb_human_player == 2)
+            else:
+                current_game.event(event)
                 
     pygame.quit()
