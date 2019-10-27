@@ -86,6 +86,7 @@ if __name__ == "__main__":
                 hmi_greeting.display(play_sound)
         else:
             if event.type == pygame.USEREVENT:
+                current_game.refresh()
                 hmi_game.display(current_game, play_sound, nb_human_player == 2)
             else:
                 current_game.event(event)

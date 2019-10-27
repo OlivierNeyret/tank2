@@ -17,14 +17,18 @@
 
 import enum
 
+MAX_AMMUNATIONS = 8
+MAX_LIFE = 100
+STEP_LIFE = 20
+
 class Team(enum.Enum):
     BLUE = 1
     RED = 2
 
 class Player:
     def __init__(self, team):
-        self.life = 100
-        self.ammunations = 8
+        self.life = MAX_LIFE
+        self.ammunations = MAX_AMMUNATIONS
         self.team = team
         if team == Team.BLUE:
             self.pos = [0, 11]
@@ -32,3 +36,23 @@ class Player:
         elif team == Team.RED:
             self.pos = [12, 0]
             self.orientation = 'W'
+
+    def decrease_life(self):
+        self.life -= STEP_LIFE
+        if self.life < 0:
+            self.life = 0
+
+    def increase_life(self):
+        self.life += STEP_LIFE
+        if self.life > MAX_LIFE:
+            self.life = MAX_LIFE
+
+    def decrease_ammunations(self):
+        self.ammunations -= 1
+        if self.ammunations < 0:
+            self.ammunations = 0
+
+    def increase_ammunations(self):
+        self.ammunations += 1
+        if self.ammunations > MAX_AMMUNATIONS:
+            self.ammunations = MAX_AMMUNATIONS

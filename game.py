@@ -23,11 +23,13 @@ import sys
 import enum
 import pygame
 import threading
+import time
 
 WIDTH_MAP = 13
 HEIGHT_MAP = 12
 
 FREQ_ROCKET = 0.02
+DELAY_BASE = 0.5
 
 class Difficulty(enum.Enum):
     NONE = 0
@@ -41,6 +43,7 @@ class Game:
         self.nb_ai_player = nb_ai_player
         self.players = []
         self.rockets = []
+        self.base_timers = []
         self.level = level
         for i in range(nb_human_player):
             if i % 2 == 0:
@@ -116,7 +119,7 @@ class Game:
             for player in self.players:
                 if player.pos[0] == rocket.position[0] and player.pos[1] == rocket.position[1]:
                     rocket.explosion = True
-                    player.life -= 20
+                    player.decrease_life()
                     t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
 
         if rocket.orientation == 'N':
@@ -178,3 +181,24 @@ class Game:
                     self.shoot(self.players[1])
 
         # TODO: check for winner
+
+    def refresh_base(self):
+        for player in self.players:
+            if (player.team == Team.BLUE and player.pos[0] == 0 and player.pos[1] == HEIGHT_MAP - 1) or (player.team == Team.RED and player.pos[0] == WIDTH_MAP - 1 and player.pos[1] == 0):
+                for timer in self.base_timers:
+                    if timer[1] == player:
+                        if timer[0] + DELAY_BASE < time.time():
+                            player.increase_life()
+                            player.increase_ammunations()
+                            timer[0] = time.time()
+                        return
+                # No timer found, so add one
+                self.base_timers.append([time.time(), player])
+            else :
+                # Remove old timers if they still exist
+                for timer in self.base_timers:
+                    if timer[1] == player:
+                        self.base_timers.remove(timer)
+
+    def refresh(self):
+        self.refresh_base()
