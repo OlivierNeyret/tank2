@@ -16,6 +16,7 @@
 # along with Tank2.  If not, see <https://www.gnu.org/licenses/>.
 
 from game import Game, Difficulty
+from player import Team
 import enum
 
 NB_MAP = 3
@@ -48,24 +49,24 @@ class Games_Manager:
 
     def game_over(self, winner):
         if self.map_number == 0:
-            if winner == "blue":
+            if winner == Team.BLUE:
                 self.nb_victory_blue += 1
-            elif winner == "red":
+            elif winner == Team.RED:
                 self.nb_victory_red += 1
 
             if self.current_map < NB_MAP:
                 self.current_map += 1
-                if winner == "blue":
+                if winner == Team.BLUE:
                     return GM_choice.VICTORY_BLUE
-                elif winner == "red":
+                elif winner == Team.RED:
                     return GM_choice.VICTORY_RED
             else:
-                if winner == "blue":
+                if winner == Team.BLUE:
                     return GM_choice.FINAL_VICTORY_BLUE
-                elif winner == "red":
+                elif winner == Team.RED:
                     return GM_choice.FINAL_VICTORY_RED
         else:
-            if winner == "blue":
+            if winner == Team.BLUE:
                 return GM_choice.FINAL_VICTORY_BLUE
-            elif winner == "red":
+            elif winner == Team.RED:
                 return GM_choice.FINAL_VICTORY_RED

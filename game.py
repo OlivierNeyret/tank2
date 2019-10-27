@@ -180,7 +180,16 @@ class Game:
                 elif event.key == pygame.K_LALT:
                     self.shoot(self.players[1])
 
-        # TODO: check for winner
+        return self.check_victory()
+
+    def check_victory(self):
+        for player in self.players:
+            if player.life <= 0:
+                if player.team == Team.BLUE:
+                    return Team.RED
+                else:
+                    return Team.BLUE
+        return None
 
     def refresh_base(self):
         for player in self.players:
@@ -202,3 +211,4 @@ class Game:
 
     def refresh(self):
         self.refresh_base()
+        return self.check_victory()

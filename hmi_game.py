@@ -17,6 +17,7 @@
 
 import pygame
 from player import Player, Team
+from games_manager import GM_choice
 
 WIDTH_SIDE_MENU = 150
 WIDTH_SPRITE = 50
@@ -223,6 +224,10 @@ class HMI_game:
                     tank_img = self.tank_blue_40
                 elif player.life == 20:
                     tank_img = self.tank_blue_20
+                else:
+                    # Something weird happened...
+                    pygame.display.flip()
+                    return
             elif player.team == Team.RED:
                 if player.life == 100:
                     tank_img = self.tank_red_100
@@ -234,6 +239,10 @@ class HMI_game:
                     tank_img = self.tank_red_40
                 elif player.life == 20:
                     tank_img = self.tank_red_20
+                else:
+                    # Something weird happened...
+                    pygame.display.flip()
+                    return
             
             if player.orientation == 'N':
                 tank_img = pygame.transform.rotate(tank_img, 90)
@@ -267,4 +276,16 @@ class HMI_game:
                         rocket_img = self.rocket_red
                 self.window.blit(rocket_img, ((rocket.position[0] * WIDTH_SPRITE) + WIDTH_SIDE_MENU, rocket.position[1] * HEIGHT_SPRITE))
 
+        pygame.display.flip()
+
+    def display_winner(self, what_winner):
+        # TODO: add music for final victory!
+        if what_winner == GM_choice.FINAL_VICTORY_BLUE:
+            self.window.blit(self.final_blue_victory, (WIDTH_SIDE_MENU, 0))
+        elif what_winner == GM_choice.FINAL_VICTORY_RED:
+            self.window.blit(self.final_red_victory, (WIDTH_SIDE_MENU, 0))
+        elif what_winner == GM_choice.VICTORY_BLUE:
+            self.window.blit(self.blue_victory, (WIDTH_SIDE_MENU, 0))
+        elif what_winner == GM_choice.VICTORY_RED:
+            self.window.blit(self.red_victory, (WIDTH_SIDE_MENU, 0))
         pygame.display.flip()
