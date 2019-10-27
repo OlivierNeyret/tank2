@@ -120,19 +120,19 @@ class Game:
                     t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
 
         if rocket.orientation == 'N':
-            if rocket.position[1] == 0 or rocket.position[1] - 1 == 'm':
+            if rocket.position[1] == 0 or self.map[rocket.position[1] - 1][rocket.position[0]] == 'm':
                 rocket.explosing = True
                 t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
         if rocket.orientation == 'E':
-            if rocket.position[0] == WIDTH_MAP - 1 or rocket.position[0] + 1 == 'm':
+            if rocket.position[0] == WIDTH_MAP - 1 or self.map[rocket.position[1]][rocket.position[0] + 1] == 'm':
                 rocket.explosing = True
                 t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
         if rocket.orientation == 'S':
-            if rocket.position[1] == HEIGHT_MAP - 1 or rocket.position[1] + 1 == 'm':
+            if rocket.position[1] == HEIGHT_MAP - 1 or self.map[rocket.position[1] + 1][rocket.position[0]] == 'm':
                 rocket.explosing = True
                 t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
         if rocket.orientation == 'W':
-            if rocket.position[0] == 0 or rocket.position[0] - 1 == 'm':
+            if rocket.position[0] == 0 or self.map[rocket.position[1]][rocket.position[0] - 1] == 'm':
                 rocket.explosing = True
                 t = threading.Timer(FREQ_ROCKET, self.callback_rocket_has_exploded, args=[rocket])
 
