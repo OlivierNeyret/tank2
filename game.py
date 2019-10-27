@@ -33,9 +33,9 @@ DELAY_BASE = 0.5
 
 class Difficulty(enum.Enum):
     NONE = 0
-    EASY = 1
-    MEDIUM = 2
-    HARD = 3
+    EASY = 700
+    MEDIUM = 500
+    HARD = 300
 
 class Game:
     def __init__(self, nb_human_player, nb_ai_player, level):
@@ -52,9 +52,9 @@ class Game:
                 self.players.append(Human_Player(Team.RED))
         for i in range(nb_ai_player):
             if i % 2 == 0:
-                self.players.append(AI_Player(Team.BLUE))
-            else:
                 self.players.append(AI_Player(Team.RED))
+            else:
+                self.players.append(AI_Player(Team.BLUE))
         self.map = []
         map_file = open("maps/map"+str(level)+".map", "r")
         for line in map_file:
@@ -212,3 +212,8 @@ class Game:
     def refresh(self):
         self.refresh_base()
         return self.check_victory()
+
+    def play_ai(self):
+        for player in self.players:
+            if isinstance(player, AI_Player):
+                player.play(self)

@@ -67,6 +67,7 @@ if __name__ == "__main__":
                 nb_human_player = 1
                 hmi_game.display(current_game, play_sound, nb_human_player == 2)
                 pygame.time.set_timer(pygame.USEREVENT, 20)
+                pygame.time.set_timer(pygame.USEREVENT+1, Difficulty.EASY.value)
                 current_screen = Screen.PLAYING
             elif choice == HMI_greeting_choice.LAUNCH_ONE_PLAYER_MEDIUM:
                 games_manager = Games_Manager(1, map_number=0, difficulty=Difficulty.MEDIUM)
@@ -74,6 +75,7 @@ if __name__ == "__main__":
                 nb_human_player = 1
                 hmi_game.display(current_game, play_sound, nb_human_player == 2)
                 pygame.time.set_timer(pygame.USEREVENT, 20)
+                pygame.time.set_timer(pygame.USEREVENT+1, Difficulty.MEDIUM.value)
                 current_screen = Screen.PLAYING
             elif choice == HMI_greeting_choice.LAUNCH_ONE_PLAYER_HARD:
                 games_manager = Games_Manager(1, map_number=0, difficulty=Difficulty.HARD)
@@ -81,6 +83,7 @@ if __name__ == "__main__":
                 nb_human_player = 1
                 hmi_game.display(current_game, play_sound, nb_human_player == 2)
                 pygame.time.set_timer(pygame.USEREVENT, 20)
+                pygame.time.set_timer(pygame.USEREVENT+1, Difficulty.HARD.value)
                 current_screen = Screen.PLAYING
             elif choice == HMI_greeting_choice.LAUNCH_TWO_PLAYER:
                 games_manager = Games_Manager(2, map_number=0)
@@ -97,6 +100,8 @@ if __name__ == "__main__":
             if event.type == pygame.USEREVENT:
                 winner = current_game.refresh()
                 hmi_game.display(current_game, play_sound, nb_human_player == 2)
+            elif event.type == pygame.USEREVENT + 1:
+                current_game.play_ai()
             else:
                 winner = current_game.event(event)
             if winner != None:
@@ -116,6 +121,8 @@ if __name__ == "__main__":
             if event.type == pygame.MOUSEBUTTONDOWN:      
                 current_game = None
                 nb_human_player = 0
+                pygame.time.set_timer(pygame.USEREVENT, 0)
+                pygame.time.set_timer(pygame.USEREVENT+1, 0)
                 current_screen = Screen.GREETING
                 window = pygame.display.set_mode([WIDTH_ONE_PLAYER, HEIGHT])
                 pygame.display.set_caption("Tank2")
