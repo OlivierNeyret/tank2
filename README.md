@@ -11,6 +11,11 @@ Python 3 is needed, with the following packages:
 pip install pygame
 ```
 
+## Usage
+```
+python tank2.py
+```
+
 ## Progression
 * [x] Reimplement the game, as it was when demonstrated at the project defense.
 * [ ] Implement some ML algorithms
