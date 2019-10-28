@@ -28,6 +28,11 @@ Y_LIFE_BLUE = 550
 X_LIFE_RED = 840
 Y_LIFE_RED = 550
 
+X_SCORE_BLUE = 210
+Y_SCORE_BLUE = 450
+X_SCORE_RED = 610
+Y_SCORE_RED = 450
+
 class HMI_game:
     def __init__(self, window):
         self.window = window
@@ -278,7 +283,7 @@ class HMI_game:
 
         pygame.display.flip()
 
-    def display_winner(self, what_winner):
+    def display_winner(self, what_winner, score_blue, score_red):
         # TODO: add music for final victory!
         if what_winner == GM_choice.FINAL_VICTORY_BLUE:
             self.window.blit(self.final_blue_victory, (WIDTH_SIDE_MENU, 0))
@@ -288,4 +293,11 @@ class HMI_game:
             self.window.blit(self.blue_victory, (WIDTH_SIDE_MENU, 0))
         elif what_winner == GM_choice.VICTORY_RED:
             self.window.blit(self.red_victory, (WIDTH_SIDE_MENU, 0))
+
+        font = pygame.font.Font(None, 48)
+        blue_surface = font.render(str(score_blue), True, (0, 0, 0))
+        red_surface = font.render(str(score_red), True, (0, 0, 0))
+        self.window.blit(blue_surface, (X_SCORE_BLUE, Y_SCORE_BLUE))
+        self.window.blit(red_surface, (X_SCORE_RED, Y_SCORE_RED))
+
         pygame.display.flip()

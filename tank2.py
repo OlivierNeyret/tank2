@@ -106,7 +106,7 @@ if __name__ == "__main__":
                 winner = current_game.event(event)
             if winner != None:
                 gm_choice = games_manager.game_over(winner)
-                hmi_game.display_winner(gm_choice)
+                hmi_game.display_winner(gm_choice, games_manager.nb_victory_blue, games_manager.nb_victory_red)
                 if gm_choice == GM_choice.VICTORY_BLUE or gm_choice == GM_choice.VICTORY_RED:
                     current_screen = Screen.VICTORY
                 else:
