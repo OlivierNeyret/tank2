@@ -50,17 +50,21 @@ class HMI_greeting:
     def display(self, play_sound):
         if self.current_screen == HMI_greeting_screen.GREETING:
             self.window.blit(self.greeting_background, (0, 0))
+            if play_sound:
+                self.window.blit(self.sound_on, (SOUND_X_POS, SOUND_Y_POS))
+            else:
+                self.window.blit(self.sound_off, (SOUND_X_POS, SOUND_Y_POS))
         elif self.current_screen == HMI_greeting_screen.ONE_PLAYER_RULES:
             self.window.blit(self.one_player_background, (0, 0))
         elif self.current_screen == HMI_greeting_screen.TWO_PLAYER_RULES:
             self.window.blit(self.two_player_background, (0, 0))
         elif self.current_screen == HMI_greeting_screen.DIFFICULTY:
             self.window.blit(self.difficulty_background, (0, 0))
+            if play_sound:
+                self.window.blit(self.sound_on, (SOUND_X_POS, SOUND_Y_POS))
+            else:
+                self.window.blit(self.sound_off, (SOUND_X_POS, SOUND_Y_POS))
 
-        if play_sound:
-            self.window.blit(self.sound_on, (SOUND_X_POS, SOUND_Y_POS))
-        else:
-            self.window.blit(self.sound_off, (SOUND_X_POS, SOUND_Y_POS))
         pygame.display.flip()
 
     def event(self, event):
