@@ -61,9 +61,9 @@ class Games_Manager:
                 elif winner == Team.RED:
                     return GM_choice.VICTORY_RED
             else:
-                if winner == Team.BLUE:
+                if self.nb_victory_blue > self.nb_victory_red:
                     return GM_choice.FINAL_VICTORY_BLUE
-                elif winner == Team.RED:
+                elif self.nb_victory_blue < self.nb_victory_red:
                     return GM_choice.FINAL_VICTORY_RED
         else:
             if winner == Team.BLUE:

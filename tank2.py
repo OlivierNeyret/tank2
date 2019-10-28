@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     pygame.mixer.quit()
 
-    window = pygame.display.set_mode([WIDTH_ONE_PLAYER, HEIGHT])
+    window = pygame.display.set_mode([WIDTH_ONE_PLAYER, HEIGHT], flags=pygame.SRCALPHA)
     pygame.display.set_caption("Tank2")
     hmi_greeting = HMI_greeting(window)
     hmi_game = HMI_game(window)

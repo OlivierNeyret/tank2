@@ -28,10 +28,11 @@ Y_LIFE_BLUE = 550
 X_LIFE_RED = 840
 Y_LIFE_RED = 550
 
-X_SCORE_BLUE = 210
-Y_SCORE_BLUE = 450
-X_SCORE_RED = 610
-Y_SCORE_RED = 450
+Y_SCORE = 450
+Y_SCORE_LABEL = 400
+
+BACKGROUND_VICTORY = (255, 255, 255, 192)
+BACKGROUND_FINAL_VICTORY = (128, 128, 128, 192)
 
 class HMI_game:
     def __init__(self, window):
@@ -79,11 +80,6 @@ class HMI_game:
         self.rocket_blue = pygame.image.load("images/rocket_blue.png").convert_alpha()
         self.rocket_red = pygame.image.load("images/rocket_red.png").convert_alpha()
         self.explosion = pygame.image.load("images/explosion.png").convert_alpha()
-        # Victory screens
-        self.blue_victory = pygame.image.load("images/victory_screens/blue_victory.png").convert_alpha()
-        self.red_victory = pygame.image.load("images/victory_screens/red_victory.png").convert_alpha()
-        self.final_blue_victory = pygame.image.load("images/victory_screens/final_blue_victory.png").convert_alpha()
-        self.final_red_victory = pygame.image.load("images/victory_screens/final_red_victory.png").convert_alpha()
 
         # Sounds
         """
@@ -285,19 +281,32 @@ class HMI_game:
 
     def display_winner(self, what_winner, score_blue, score_red):
         # TODO: add music for final victory!
-        if what_winner == GM_choice.FINAL_VICTORY_BLUE:
-            self.window.blit(self.final_blue_victory, (WIDTH_SIDE_MENU, 0))
-        elif what_winner == GM_choice.FINAL_VICTORY_RED:
-            self.window.blit(self.final_red_victory, (WIDTH_SIDE_MENU, 0))
-        elif what_winner == GM_choice.VICTORY_BLUE:
-            self.window.blit(self.blue_victory, (WIDTH_SIDE_MENU, 0))
-        elif what_winner == GM_choice.VICTORY_RED:
-            self.window.blit(self.red_victory, (WIDTH_SIDE_MENU, 0))
 
-        font = pygame.font.Font(None, 48)
-        blue_surface = font.render(str(score_blue), True, (0, 0, 0))
-        red_surface = font.render(str(score_red), True, (0, 0, 0))
-        self.window.blit(blue_surface, (X_SCORE_BLUE, Y_SCORE_BLUE))
-        self.window.blit(red_surface, (X_SCORE_RED, Y_SCORE_RED))
+        s = pygame.Surface((650, 600), pygame.SRCALPHA)
+        font_title = pygame.font.Font(None, 96)
+
+        if what_winner == GM_choice.FINAL_VICTORY_BLUE:
+            s.fill(BACKGROUND_FINAL_VICTORY)
+            self.window.blit(s, (WIDTH_SIDE_MENU, 0))
+            title_surface = font_title.render("Victory of the blue!", True, (0, 0, 255))
+        elif what_winner == GM_choice.FINAL_VICTORY_RED:
+            s.fill(BACKGROUND_FINAL_VICTORY)
+            self.window.blit(s, (WIDTH_SIDE_MENU, 0))
+            title_surface = font_title.render("Victory of the red!", True, (255, 0, 0))
+        elif what_winner == GM_choice.VICTORY_BLUE:
+            s.fill(BACKGROUND_VICTORY)
+            self.window.blit(s, (WIDTH_SIDE_MENU, 0))
+            title_surface = font_title.render("Blue won!", True, (0, 0, 255))
+        elif what_winner == GM_choice.VICTORY_RED:
+            s.fill(BACKGROUND_VICTORY)
+            self.window.blit(s, (WIDTH_SIDE_MENU, 0))
+            title_surface = font_title.render("Red won!", True, (255, 0, 0))
+
+        self.window.blit(title_surface, (WIDTH_SIDE_MENU + (650 / 2) - (title_surface.get_width() / 2), 120))
+        font_score = pygame.font.Font(None, 48)
+        blue_score_surface = font_score.render("Blue: " + str(score_blue), True, (0, 0, 0))
+        red_score_surface = font_score.render("Red: " + str(score_red), True, (0, 0, 0))
+        self.window.blit(blue_score_surface, (WIDTH_SIDE_MENU + (650 / 4) - (blue_score_surface.get_width() / 2), Y_SCORE))
+        self.window.blit(red_score_surface, (WIDTH_SIDE_MENU + (3 * 650 / 4) - (red_score_surface.get_width() / 2), Y_SCORE))
 
         pygame.display.flip()

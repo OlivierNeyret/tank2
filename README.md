@@ -1,7 +1,7 @@
 # Tank2
 Tank2 is a fork of a game I created with two friend for an high school project.
 
-This fork is intended to provide a more stable game and to try some machine learning algorithm.
+This fork is intended to provide a more stable game and to try some machine learning algorithms.
 
 ## Dependencies
 Python 3 is needed, with the following packages:
@@ -12,7 +12,7 @@ pip install pygame
 ```
 
 ## Progression
-* [x] Reimplement the game, as it was 
+* [x] Reimplement the game, as it was when demonstrated at the project defense.
 * [ ] Implement some ML algorithms
 
 ## Sound problem
